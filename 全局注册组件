@@ -1,3 +1,41 @@
 组件中如按钮，输入框，loading加载状态等等非常常见，容易多次复用，为避免多次import，使用全局注册。
 全局注册组件，在所有的.vue文件里都可以使用，不需要另外的import。
 本文以 loading.vue为🥚。
+在components中新建loading文件夹，在里面新建index.js和Loading.vue；
+Loading.vue的内容如下：
+                <template>
+                  <div class="loading">{{msg}}</div>
+                </template>
+                <script>
+                export default {
+                  name: "Loading",
+                  data() {
+                    return {
+                      msg: "loading"
+                    };
+                  }
+                };
+                </script>
+                <style scoped>
+                .loading {
+                  font-size: 36px;
+                  color: rgb(253, 189, 105);
+                  position: fixed;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                  z-index: 9;
+                }
+                </style>
+index.js的内容是：
+              import LoadingComponent from "./Loading.vue";
+              const Loading = {
+                  install: function (Vue) {
+                      Vue.component("Loading", LoadingComponent);
+                  }
+              }
+              export default Loading
+main.js的修改是：在最后一个import的后面添加以下两行代码：
+            import Loading from "./components/loading";
+            Vue.use(Loading);
+这样就可以在.vue文件里使用了，如在HelloWord.vue里面使用，<Loading></Loading>
